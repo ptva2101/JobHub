@@ -1,0 +1,42 @@
+# Dependencies (tạo lại bằng npm install)
+node_modules/
+
+# Production build và báo cáo kiểm thử (tạo lại bằng npm run build/test)
+dist/
+dist-ssr/
+coverage/
+playwright-report/
+test-results/
+*.tsbuildinfo
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Biến môi trường cục bộ; vẫn đưa file mẫu lên GitHub
+.env
+.env.*
+!.env.example
+*.local
+
+# Chỉ bỏ qua các bản sao lưu/tệp tạm của database.
+# db.json KHÔNG bị ignore để người clone dự án có đầy đủ dữ liệu giả.
+db.before-*.json
+db.json.tmp-*
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

@@ -1,0 +1,47 @@
+{
+  "name": "jobhub",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently --kill-others --names WEB,API --prefix-colors cyan,magenta \"npm:dev:web\" \"npm:dev:api\"",
+    "dev:web": "vite",
+    "dev:api": "json-server db.json --port 3001",
+    "seed": "node scripts/generateMockData.mjs",
+    "seed:preview": "node scripts/generateMockData.mjs --dry-run",
+    "seed:check": "node scripts/generateMockData.mjs --check",
+    "data:engagement:preview": "node scripts/migrateCompanyEngagement.mjs",
+    "data:engagement:migrate": "node scripts/migrateCompanyEngagement.mjs --write",
+    "data:engagement:check": "node scripts/migrateCompanyEngagement.mjs --check",
+    "data:moderation:preview": "node scripts/migrateAccountModeration.mjs",
+    "data:moderation:migrate": "node scripts/migrateAccountModeration.mjs --write",
+    "data:moderation:check": "node scripts/migrateAccountModeration.mjs --check",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "react-router-dom": "^7.18.2",
+    "recharts": "^3.10.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/node": "^24.13.3",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.4",
+    "concurrently": "^10.0.4",
+    "eslint": "^10.8.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.3",
+    "globals": "^17.7.0",
+    "json-server": "^1.0.0-beta.15",
+    "tailwindcss": "^4.3.3",
+    "typescript": "~6.0.2",
+    "typescript-eslint": "^8.65.0",
+    "vite": "^8.2.0"
+  }
+}
