@@ -16,7 +16,6 @@ JobHub là đồ án frontend mô phỏng một nền tảng tuyển dụng hoà
 - [Cấu trúc dự án](#cấu-trúc-dự-án)
 - [Mô hình dữ liệu](#mô-hình-dữ-liệu)
 - [Các lệnh thường dùng](#các-lệnh-thường-dùng)
-- [Kịch bản thuyết trình](#kịch-bản-thuyết-trình)
 - [Giới hạn hiện tại](#giới-hạn-hiện-tại)
 
 ## Điểm nổi bật
