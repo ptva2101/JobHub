@@ -64545,6 +64545,31 @@
       "lastNotification": null,
       "appliedAt": "2026-08-09T14:46:57.977Z",
       "updatedAt": "2026-08-09T14:46:57.977Z"
+    },
+    {
+      "jobId": "job_01",
+      "candidateId": "user_candidate_01",
+      "cvUrl": "/cvs/nguyen-viet-anh.pdf",
+      "coverLetter": "Em xin ứng tuyển ạ",
+      "id": "4Zls8eIllyw",
+      "status": "reviewing",
+      "statusHistory": [
+        {
+          "status": "pending",
+          "changedBy": "user_candidate_01",
+          "changedAt": "2026-08-11T14:24:17.495Z",
+          "note": "Ứng viên đã nộp hồ sơ"
+        },
+        {
+          "status": "reviewing",
+          "changedBy": "user_employer_01",
+          "changedAt": "2026-08-11T14:26:04.008Z",
+          "note": "Chuyển hồ sơ sang trạng thái Đang xem xét"
+        }
+      ],
+      "lastNotification": null,
+      "appliedAt": "2026-08-11T14:24:17.495Z",
+      "updatedAt": "2026-08-11T14:26:04.008Z"
     }
   ],
   "bookmarks": [
@@ -74131,16 +74156,6 @@
       "updatedAt": "2026-05-23T08:04:20.000Z"
     },
     {
-      "id": "review_0239",
-      "candidateId": "user_candidate_01",
-      "employerId": "user_employer_06",
-      "rating": 5,
-      "title": "Môi trường chuyên nghiệp",
-      "content": "Công ty có nhiều cơ hội học hỏi nhưng thời gian phản hồi có thể nhanh hơn.",
-      "createdAt": "2026-04-06T08:13:29.000Z",
-      "updatedAt": "2026-04-06T08:13:29.000Z"
-    },
-    {
       "id": "review_0240",
       "candidateId": "user_candidate_034",
       "employerId": "user_employer_09",
@@ -74958,7 +74973,7 @@
       "title": "Môi trường chuyên nghiệp",
       "content": "Công ty có hỗ trợ ăn trưa cho nhân viên",
       "createdAt": "2026-08-09T12:07:36.123Z",
-      "updatedAt": "2026-08-09T12:07:36.123Z"
+      "updatedAt": "2026-08-11T14:19:25.209Z"
     },
     {
       "id": "h6Zz1Jk8qO8",
@@ -89322,6 +89337,17 @@
       "message": "Finova Finance vừa đăng tuyển vị trí Kế toán tổng hợp.",
       "readAt": null,
       "createdAt": "2026-02-13T11:11:04.000Z"
+    },
+    {
+      "id": "yLtk6ysmZSQ",
+      "recipientId": "user_candidate_01",
+      "type": "application_status",
+      "employerId": "user_employer_01",
+      "jobId": "job_01",
+      "title": "Cập nhật hồ sơ: ReactJS Developer",
+      "message": "Hồ sơ ứng tuyển \"ReactJS Developer\" tại JobHub Technology đã được chuyển sang trạng thái \"Đang xem xét\". Chuyển hồ sơ sang trạng thái Đang xem xét",
+      "readAt": "2026-08-11T14:28:17.222Z",
+      "createdAt": "2026-08-11T14:26:04.008Z"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
