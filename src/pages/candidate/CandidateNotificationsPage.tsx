@@ -1,11 +1,15 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { EmptyState } from '../../components/common/EmptyState'
 import { Loading } from '../../components/common/Loading'
 import { Pagination } from '../../components/common/Pagination'
 import { useAuth } from '../../hooks/useAuth'
 import { useToast } from '../../hooks/useToast'
-import { notificationService } from '../../services/notificationService'
+import {
+  NOTIFICATIONS_CHANGED_EVENT,
+  notificationService,
+} from '../../services/notificationService'
+import { socket, socketService } from '../../services/socketService'
 import type { Notification } from '../../types/notification'
 import { formatDate } from '../../utils/formatDate'
 
@@ -21,29 +25,49 @@ export function CandidateNotificationsPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
+  const fetchNotifications = useCallback(
+    (active = true) => {
+      if (!user) return
+      notificationService
+        .getByRecipient(user.id)
+        .then((data) => {
+          if (!active) return
+          setNotifications(data)
+          setError('')
+        })
+        .catch(() => {
+          if (active) setError('Không thể tải danh sách thông báo. Hãy kiểm tra mock API.')
+        })
+        .finally(() => {
+          if (active) setLoading(false)
+        })
+    },
+    [user],
+  )
+
   useEffect(() => {
     let active = true
     if (!user) return
 
-    notificationService
-      .getByRecipient(user.id)
-      .then((data) => {
-        if (!active) return
-        setNotifications(data)
-        setCurrentPage(1)
-        setError('')
-      })
-      .catch(() => {
-        if (active) setError('Không thể tải danh sách thông báo. Hãy kiểm tra mock API.')
-      })
-      .finally(() => {
-        if (active) setLoading(false)
-      })
+    socketService.joinUserRoom(user.id)
+    fetchNotifications(active)
+
+    const handleRefresh = () => fetchNotifications(active)
+
+    // Listen to browser custom events (same-tab changes)
+    window.addEventListener(NOTIFICATIONS_CHANGED_EVENT, handleRefresh)
+
+    // Listen to Socket.IO events (cross-tab / cross-browser realtime)
+    socket.on('notifications_changed', handleRefresh)
+    socket.on('application_status_changed', handleRefresh)
 
     return () => {
       active = false
+      window.removeEventListener(NOTIFICATIONS_CHANGED_EVENT, handleRefresh)
+      socket.off('notifications_changed', handleRefresh)
+      socket.off('application_status_changed', handleRefresh)
     }
-  }, [user])
+  }, [user, fetchNotifications])
 
   const unreadCount = useMemo(
     () => notifications.filter((notification) => notification.readAt === null).length,

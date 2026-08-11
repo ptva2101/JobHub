@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import { EmptyState } from '../../components/common/EmptyState'
 import { Loading } from '../../components/common/Loading'
@@ -6,6 +6,7 @@ import { APPLICATION_STATUS_META } from '../../constants/applicationStatus'
 import { useAuth } from '../../hooks/useAuth'
 import { applicationService } from '../../services/applicationService'
 import { jobService } from '../../services/jobService'
+import { socket } from '../../services/socketService'
 import type { Application } from '../../types/application'
 import type { Job } from '../../types/job'
 import { formatDate } from '../../utils/formatDate'
@@ -21,10 +22,8 @@ export function CandidateApplicationsPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
-  useEffect(() => {
-    let active = true
+  const fetchApplications = useCallback((active = true) => {
     if (!user) return
-
     applicationService
       .getByCandidate(user.id)
       .then(async (applications) =>
@@ -38,11 +37,23 @@ export function CandidateApplicationsPage() {
       .then((data) => active && setItems(data.sort((a, b) => b.application.appliedAt.localeCompare(a.application.appliedAt))))
       .catch(() => active && setError('Không thể tải danh sách đơn ứng tuyển.'))
       .finally(() => active && setLoading(false))
+  }, [user])
+
+  useEffect(() => {
+    let active = true
+    fetchApplications(active)
+
+    const handleSocketUpdate = () => {
+      fetchApplications(active)
+    }
+
+    socket.on('application_status_changed', handleSocketUpdate)
 
     return () => {
       active = false
+      socket.off('application_status_changed', handleSocketUpdate)
     }
-  }, [user])
+  }, [fetchApplications])
 
   return (
     <div>

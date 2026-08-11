@@ -6,12 +6,15 @@ import { isPublicJob } from '../utils/jobModeration'
 import { apiClient } from './apiClient'
 import { companyFollowService } from './companyFollowService'
 
+import { socketService } from './socketService'
+
 export const NOTIFICATIONS_CHANGED_EVENT = 'jobhub:notifications-changed'
 
 function announceNotificationsChanged() {
   if (typeof window !== 'undefined') {
     window.dispatchEvent(new Event(NOTIFICATIONS_CHANGED_EVENT))
   }
+  socketService.notifyNotificationsChanged()
 }
 
 function sortNewestFirst(notifications: Notification[]): Notification[] {

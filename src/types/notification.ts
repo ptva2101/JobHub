@@ -1,4 +1,4 @@
-export type NotificationType = 'new_job'
+export type NotificationType = 'new_job' | 'application_status'
 
 export interface Notification {
   id: string

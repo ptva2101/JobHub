@@ -5,6 +5,7 @@ import {
   NOTIFICATIONS_CHANGED_EVENT,
   notificationService,
 } from '../../services/notificationService'
+import { socket, socketService } from '../../services/socketService'
 
 export function NotificationBell() {
   const { user } = useAuth()
@@ -13,6 +14,8 @@ export function NotificationBell() {
   useEffect(() => {
     let active = true
     if (user?.role !== 'candidate') return
+
+    socketService.joinUserRoom(user.id)
 
     const refreshUnreadCount = () => {
       notificationService
@@ -27,17 +30,23 @@ export function NotificationBell() {
 
     const handleWindowFocus = () => refreshUnreadCount()
     const handleNotificationsUpdated = () => refreshUnreadCount()
+    const handleSocketNotification = () => refreshUnreadCount()
 
     refreshUnreadCount()
     const refreshInterval = window.setInterval(refreshUnreadCount, 30_000)
     window.addEventListener('focus', handleWindowFocus)
     window.addEventListener(NOTIFICATIONS_CHANGED_EVENT, handleNotificationsUpdated)
 
+    socket.on('notifications_changed', handleSocketNotification)
+    socket.on('application_status_changed', handleSocketNotification)
+
     return () => {
       active = false
       window.clearInterval(refreshInterval)
       window.removeEventListener('focus', handleWindowFocus)
       window.removeEventListener(NOTIFICATIONS_CHANGED_EVENT, handleNotificationsUpdated)
+      socket.off('notifications_changed', handleSocketNotification)
+      socket.off('application_status_changed', handleSocketNotification)
     }
   }, [user])
 

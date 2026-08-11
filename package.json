@@ -4,9 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "concurrently --kill-others --names WEB,API --prefix-colors cyan,magenta \"npm:dev:web\" \"npm:dev:api\"",
+    "dev": "concurrently --kill-others --names WEB,API,SOCKET --prefix-colors cyan,magenta,yellow \"npm:dev:web\" \"npm:dev:api\" \"npm:dev:socket\"",
     "dev:web": "vite",
     "dev:api": "json-server db.json --port 3001",
+    "dev:socket": "node scripts/socketServer.mjs",
     "seed": "node scripts/generateMockData.mjs",
     "seed:preview": "node scripts/generateMockData.mjs --dry-run",
     "seed:check": "node scripts/generateMockData.mjs --check",
@@ -24,7 +25,9 @@
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-router-dom": "^7.18.2",
-    "recharts": "^3.10.1"
+    "recharts": "^3.10.1",
+    "socket.io": "^4.8.3",
+    "socket.io-client": "^4.8.3"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
